@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random KaanMasti</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="maindiv">
+    <div class="nowplaying">
+      <div class="title">Now Playing</div>
+      <div class="start">
+        <div id="start" class="button">Start Random Episode</div>
+        <div id="play">
+          <div id="playicon">1:1</div>
+          <span id="starting">Starting in 4 seconds...</span>
+        </div>
+      </div>
+    </div>
+    <div class="history">
+      <div class="title">Your History</div>
+      <div id="histplaylist">
+
+      </div>
+    </div>
+    <div class="fulllist">
+      <div class="title">All Episodes</div>
+      <div id="allplaylist">
+
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  const play = document.getElementById('play')
+  const start = document.getElementById('start')
+  const playicon = document.getElementById('playicon')
+  const starting = document.getElementById('starting')
+
+  play.style.display = 'none'
+
+
+  const fullList = [
+    { s: 1, e: 1, v: "uw-Yg6KB4sQ" },
+    { s: 1, e: 2, v: "YCvIcz1TGVA" },
+    { s: 1, e: 3, v: "_p1ZjHfIsOM" },
+    { s: 1, e: 4, v: "kT7ihWWSgvM" },
+    { s: 1, e: 5, v: "HzBhQiHpXdU" },
+    { s: 1, e: 6, v: "ja3ADITMfkE" },
+    { s: 1, e: 7, v: "TVFAc69wfrQ" },
+    { s: 1, e: 8, v: "9DOzOEbs2ZU" },
+    { s: 1, e: 9, v: "jbwPB8dhh6A" },
+    { s: 1, e: 10, v: "L10UG4hfxTM" },
+
+    { s: 2, e: 1, v: "6b5uEhupWn4" },
+    { s: 2, e: 2, v: "xZ9v1QuQg14" },
+    { s: 2, e: 3, v: "X5RVsvSjIhA" },
+    { s: 2, e: 4, v: "4HLV2VONU7A" },
+    { s: 2, e: 5, v: "zzIYhTQbjTo" },
+    { s: 2, e: 6, v: "GAPsXXctTNc" },
+    { s: 2, e: 7, v: "k-7FpXnft64" },
+    { s: 2, e: 8, v: "Rv2srevpkv0" },
+    { s: 2, e: 9, v: "V-X-msD8axc" },
+    { s: 2, e: 10, v: "8SsMl4gFiFw" },
+
+    { s: 3, e: 1, v: "Tx-_WjTJ3B8" },
+    { s: 3, e: 2, v: "8_LbJRkHQUc" },
+    { s: 3, e: 3, v: "dMXYySuL_MQ" },
+    { s: 3, e: 4, v: "Gkty1m6Ws8Q" },
+    { s: 3, e: 5, v: "VowUgOAE99E" },
+    { s: 3, e: 6, v: "2MsNTUFySoM" },
+    { s: 3, e: 7, v: "p7o1PzBO8pU" },
+    { s: 3, e: 8, v: "KI4jWIrhA8Q" },
+    { s: 3, e: 9, v: "894q5rqAb0k" },
+    { s: 3, e: 10, v: "nogmFELHYhU" },
+
+    { s: 4, e: 1, v: "yZuTVXZCbBQ" },
+    { s: 4, e: 2, v: "N4NrQ3zHiQM" },
+    { s: 4, e: 3, v: "Vqr1sJc2iU4" },
+    { s: 4, e: 4, v: "TLbbWpqXv6E" },
+    { s: 4, e: 5, v: "PZmsTVLESMU" },
+    { s: 4, e: 6, v: "vJn_mijzNx8" },
+    { s: 4, e: 7, v: "_It8Ouh3XqQ" },
+    { s: 4, e: 8, v: "_dy2b18w4xM" },
+    { s: 4, e: 9, v: "y2ks0TMCQv4" },
+    { s: 4, e: 10, v: "AAFNFpDGZR0" },
+
+    { s: 5, e: 1, v: "AQSI2JpS-pc" },
+    { s: 5, e: 2, v: "s3AYvRlCgBo" },
+    { s: 5, e: 3, v: "il3cIUDHhq4" },
+    { s: 5, e: 4, v: "OZcNGaSQWyU" },
+    { s: 5, e: 5, v: "lT3IflYZaRg" },
+    { s: 5, e: 6, v: "VrvJcU5uU7c" },
+    { s: 5, e: 7, v: "FLlP8DXAGcM" },
+    { s: 5, e: 8, v: "iUI8XDODQ0w" },
+    { s: 5, e: 9, v: "jk8rKlqVyK0" },
+    { s: 5, e: 10, v: "p-H3O0qEg7U" },
+  ]
+
+  const alllist = document.getElementById("allplaylist");
+
+  for (const ep of fullList) {
+    const epdiv = document.createElement('a');
+    epdiv.classList.add('episode')
+    const epicon = document.createElement('div');
+    const icontextNode = document.createTextNode(`${ep.s}:${ep.e}`)
+    const textNode = document.createTextNode(`Season ${ep.s}, Episode ${ep.e}`)
+
+    epicon.append(icontextNode);
+    epdiv.append(epicon, textNode);
+    epdiv.setAttribute('href', `https://www.youtube.com/watch?v=${ep.v}`)
+
+    alllist.append(epdiv);
+  }
+  const histlist = document.getElementById("histplaylist");
+
+  const historylist = JSON.parse(localStorage.getItem('history') || "[]").reverse();
+  for (const histep of historylist) {
+    const epdiv = document.createElement('a');
+    epdiv.classList.add('episode')
+    const epicon = document.createElement('div');
+    const icontextNode = document.createTextNode(`${histep.s}:${histep.e}`)
+    const textNode = document.createTextNode(`Season ${histep.s}, Episode ${histep.e}`)
+
+    epicon.append(icontextNode);
+    epdiv.append(epicon, textNode);
+    epdiv.setAttribute('href', `https://www.youtube.com/watch?v=${histep.v}`)
+
+    histlist.append(epdiv);
+  }
+
+  const getRandomEpisode = () => {
+    const historyls = JSON.parse(localStorage.getItem('history') || "[]")
+
+    let randomEpisode = fullList[Math.floor(Math.random() * fullList.length)]
+    while(historyls.find((histep) => {histep.v === randomEpisode.v})) {
+      console.log('collision')
+      randomEpisode = fullList[Math.floor(Math.random() * fullList.length)]
+    }
+    historyls.push(randomEpisode)
+    while (historyls.length > 20) {
+      historyls.shift();
+    }
+    localStorage.setItem('history', JSON.stringify(historyls))
+
+    let countdown = 5;
+    playicon.innerHTML = `${randomEpisode.s}:${randomEpisode.e}`
+    starting.innerHTML = `Starting in ${countdown} seconds...`
+    play.style.display = 'block';
+    start.style.display = 'none';
+
+    setInterval(() => {
+      countdown--;
+      starting.innerHTML = `Starting in ${countdown} seconds...`
+
+      if (countdown === 0) {
+        document.location = `https://www.youtube.com/watch?v=${randomEpisode.v}`
+      }
+    }, 1000)
+
+  }
+
+  document.getElementById('start').addEventListener('click', getRandomEpisode)
+
+</script>
+
+</html>
