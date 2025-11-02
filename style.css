@@ -97,3 +97,21 @@ body {
   border-radius: 20px;
   margin-bottom: 30px;
 }
+
+@media (max-width:600px)  {
+  .maindiv {
+    flex-wrap: wrap;
+  }
+
+  .nowplaying {
+    width: 100vw;
+    height: 50vh;
+    border-right: none;
+    border-bottom: 2px dashed;
+  }
+
+  .history, .fulllist {
+    width: 50vw;
+    height: 50vh;
+  }
+}
